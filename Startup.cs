@@ -15,6 +15,7 @@ namespace DutchTreat
         public void ConfigureServices(IServiceCollection services)
         {
             // Dependency Injection
+            services.AddDbContext<DutchContext>();
             services.AddTransient<IMailService, NullMailService>();
 
             services.AddControllersWithViews()
