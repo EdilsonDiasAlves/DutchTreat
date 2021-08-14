@@ -7,6 +7,11 @@ namespace DutchTreat.Data
     {
         IEnumerable<Product> GetAllProducts();
         IEnumerable<Product> GetAllProductsByCategory(string category);
+
+        IEnumerable<Order> GetAllOrders();
+        Order GetById(int id);
+
         bool SaveAll();
+        
     }
 }

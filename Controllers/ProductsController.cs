@@ -10,10 +10,10 @@ using System.Net;
 
 namespace DutchTreat.Controllers
 {
-    [Route("api/[Controller]")]
     [ApiController]
+    [Route("api/[Controller]")]
     [Produces("application/json")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : Controller
     {
         private readonly IDutchRepository _repository;
         private readonly ILogger<ProductsController> _logger;
@@ -31,7 +31,7 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                return Ok(_repository.GetAllProducts());
+                return Ok(_repository.GetAllOrders());
             }
             catch (Exception ex)
             {
