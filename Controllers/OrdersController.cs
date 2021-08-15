@@ -1,4 +1,5 @@
 ﻿using DutchTreat.Data;
+using DutchTreat.Data.Converter;
 using DutchTreat.Data.Entities;
 using DutchTreat.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -16,14 +17,15 @@ namespace DutchTreat.Controllers
     {
         private readonly IDutchRepository _repository;
         private readonly ILogger<OrdersController> _logger;
-        private readonly OrderMapper _mapper;
+        private readonly IOrderMapper _mapper;
 
         public OrdersController(IDutchRepository repository, 
-            ILogger<OrdersController> logger)
+            ILogger<OrdersController> logger,
+            IOrderMapper mapper)
         {
             _repository = repository;
             _logger = logger;
-            _mapper = new OrderMapper();
+            _mapper = mapper;
         }
 
         [HttpGet]
