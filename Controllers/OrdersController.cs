@@ -16,11 +16,14 @@ namespace DutchTreat.Controllers
     {
         private readonly IDutchRepository _repository;
         private readonly ILogger<OrdersController> _logger;
+        private readonly OrderMapper _mapper;
 
-        public OrdersController(IDutchRepository repository, ILogger<OrdersController> logger)
+        public OrdersController(IDutchRepository repository, 
+            ILogger<OrdersController> logger)
         {
             _repository = repository;
             _logger = logger;
+            _mapper = new OrderMapper();
         }
 
         [HttpGet]
@@ -30,7 +33,8 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                return Ok(_repository.GetAllOrders());
+                var result = _repository.GetAllOrders();
+                return Ok(_mapper.Map(result));
             }
             catch (Exception ex)
             {
@@ -52,7 +56,7 @@ namespace DutchTreat.Controllers
                 var order = _repository.GetById(id);
                 if(order != null)
                 {
-                    return Ok(order);
+                    return Ok(_mapper.Map(order));
                 } else
                 {
                     return NotFound();
@@ -68,38 +72,23 @@ namespace DutchTreat.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Post([FromBody] OrderViewModel order)
+        public IActionResult Post([FromBody] OrderViewModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var newOrder = new Order()
-                    {
-                        Id = order.OrderId,
-                        OrderDate = order.OrderDate,
-                        OrderNumber = order.OrderNumber
-                    };
+                    var newOrder = _mapper.Map(model);
 
-                    if(newOrder.OrderDate == DateTime.MinValue)
+                    if (newOrder.OrderDate == DateTime.MinValue)
                     {
                         newOrder.OrderDate = DateTime.Now;
                     }
 
-
                     _repository.AddEntity(newOrder);
                     if (_repository.SaveAll())
                     {
-                        var orderAdded = new OrderViewModel()
-                        {
-                            OrderId = newOrder.Id,
-                            OrderDate = newOrder.OrderDate,
-                            OrderNumber = newOrder.OrderNumber
-                        };
-
-                        return Created($"/api/orders/{orderAdded.OrderId}", orderAdded);
+                        return Created($"/api/orders/{newOrder.Id}", _mapper.Map(newOrder));
                     }
                 }
             }
