@@ -46,6 +46,11 @@ namespace DutchTreat.Data
                 .FirstOrDefault();
         }
 
+        public void AddEntity(object order)
+        {
+            _ctx.Add(order);
+        }
+
         public bool SaveAll()
         {
             return _ctx.SaveChanges() > 0;
