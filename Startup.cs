@@ -22,6 +22,7 @@ namespace DutchTreat
 
             // Mapper
             services.AddScoped<IOrderMapper, OrderMapper>();
+            services.AddScoped<IOrderItemMapper, OrderItemMapper>();
 
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation()

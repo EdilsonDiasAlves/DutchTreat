@@ -11,11 +11,29 @@ namespace DutchTreat.Data
         public OrderViewModel Map(Order origin)
         {
             if (origin == null) return null;
+
+            ICollection<OrderItemViewModel> items = new List<OrderItemViewModel>();
+            if (origin.Items != null)
+            {
+                foreach(OrderItem originItem in origin.Items)
+                {
+                    OrderItemViewModel destinyItem = new OrderItemViewModel
+                    {
+                        Id = originItem.Id,
+                        Quantity = originItem.Quantity,
+                        UnitPrice = originItem.UnitPrice
+                    };
+                    items.Add(destinyItem);
+                }
+            }
+
+
             return new OrderViewModel
             {
                 OrderId = origin.Id,
                 OrderDate = origin.OrderDate,
-                OrderNumber = origin.OrderNumber
+                OrderNumber = origin.OrderNumber,
+                Items = items
             };
         }
 

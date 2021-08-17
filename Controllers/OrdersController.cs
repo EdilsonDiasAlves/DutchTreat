@@ -55,7 +55,7 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                var order = _repository.GetById(id);
+                var order = _repository.GetOrderById(id);
                 if(order != null)
                 {
                     return Ok(_mapper.Map(order));
