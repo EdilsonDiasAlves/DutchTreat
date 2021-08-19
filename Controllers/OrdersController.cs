@@ -31,11 +31,11 @@ namespace DutchTreat.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<Order>> Get()
+        public ActionResult<IEnumerable<Order>> Get(bool includeItems = true)
         {
             try
             {
-                var result = _repository.GetAllOrders();
+                var result = _repository.GetAllOrders(includeItems);
                 return Ok(_mapper.Map(result));
             }
             catch (Exception ex)

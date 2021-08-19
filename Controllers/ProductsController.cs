@@ -31,7 +31,8 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                return Ok(_repository.GetAllOrders());
+                bool returnItems = true;
+                return Ok(_repository.GetAllOrders(returnItems));
             }
             catch (Exception ex)
             {
